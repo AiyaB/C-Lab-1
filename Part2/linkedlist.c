@@ -1,7 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "linkedlist.h"
+/*
+struct node{
+int val;
+struct node *next;
+struct node *prev;
+}
 
+struct list{
+struct node *first;
+struct node *last;
+}
+ */
 /* Create an empty list.
    Return a pointer to the empty list, or NULL on failure. */
 
@@ -57,6 +68,7 @@ int insert_start(struct list *l, int val)
 
 /* Insert value in the end of a list.
    Return 0 on failure and 1 on success. */
+/*Failed*/
 int insert_end(struct list *l, int val)
 {
   struct node *n = NULL;
@@ -68,9 +80,10 @@ int insert_end(struct list *l, int val)
   {
     n->prev = l->last;
     n->next = NULL;
+    l->last->next=n;/*didn't connect previous last to new node*/
     l->last = n;
   }
-  else
+  else/*if only node*/
   {
     n->next = n->prev = NULL;
     l->first = l->last = n;
@@ -88,6 +101,7 @@ int insert_after(struct list *l, struct node *n, int val)
     return 0;
   m->val = val;
   m->next = n->next;
+  m->prev = n;/*forgot to connect new node to previous*/
   if (l->last == n)
     l->last = m;
   else
